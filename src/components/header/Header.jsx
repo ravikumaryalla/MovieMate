@@ -1,6 +1,8 @@
 import { logo } from "../../assets";
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 const Header = () => {
+  const navigate = useNavigate();
   const [activePage, setActivePage] = useState("Home");
 
   return (
@@ -13,7 +15,10 @@ const Header = () => {
       <div className="list self-center flex gap-[1rem]">
         <ul className="list-none flex justify-center gap-[1rem]">
           <li
-            onClick={() => setActivePage("Home")}
+            onClick={() => {
+              setActivePage("Home");
+              navigate("/");
+            }}
             className={
               activePage === "Home"
                 ? "text-blue-500  cursor-pointer"
@@ -24,7 +29,10 @@ const Header = () => {
           </li>
 
           <li
-            onClick={() => setActivePage("Popular")}
+            onClick={() => {
+              setActivePage("Popular");
+              navigate("/popular");
+            }}
             className={
               activePage === "Popular"
                 ? "text-blue-500  cursor-pointer"
@@ -34,7 +42,10 @@ const Header = () => {
             Popular
           </li>
           <li
-            onClick={() => setActivePage("Top Rated")}
+            onClick={() => {
+              setActivePage("Top Rated");
+              navigate("/toprated");
+            }}
             className={
               activePage === "Top Rated"
                 ? "text-blue-500 cursor-pointer"
@@ -45,7 +56,10 @@ const Header = () => {
           </li>
 
           <li
-            onClick={() => setActivePage("Up Coming")}
+            onClick={() => {
+              setActivePage("Up Coming");
+              navigate("/upcoming");
+            }}
             className={
               activePage === "Up Coming"
                 ? "text-blue-500  cursor-pointer"
