@@ -1,10 +1,14 @@
 import "./App.css";
+import { BrowserRouter } from "react-router-dom";
+import AllRoutes from "./Allroutes/AllRoutes";
 
 function App() {
   return (
-    <>
-      <h2>App</h2>
-    </>
+    <div className=" text-white">
+      <BrowserRouter>
+        <AllRoutes />
+      </BrowserRouter>
+    </div>
   );
 }
 
