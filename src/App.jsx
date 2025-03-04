@@ -4,7 +4,7 @@ import AllRoutes from "./Allroutes/AllRoutes";
 
 function App() {
   return (
-    <div className=" text-white">
+    <div className=" text-white  ">
       <BrowserRouter>
         <AllRoutes />
       </BrowserRouter>

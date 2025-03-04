@@ -1,9 +1,16 @@
 /* eslint-disable react/prop-types */
 // eslint-disable-next-line react/prop-types
+import { useNavigate } from "react-router-dom";
 const MovieCard = ({ data }) => {
-  console.log(data);
+  const navigate = useNavigate();
+  const handleClick = () => {
+    navigate(`/moviedetails/${data?.id}`);
+  };
   return (
-    <div className="w-[300px] rounded-[0.6rem] border-[1px] border-[#7e868d] p-[0.5rem] flex-col justify-center align-center">
+    <div
+      className="w-[400px] rounded-[0.6rem] border-[1px] border-[#7e868d] p-[0.5rem] flex-col justify-center align-center cursor-pointer"
+      onClick={handleClick}
+    >
       <img
         src={`https://image.tmdb.org/t/p/w342${data?.poster_path}?`}
         alt="movie-card"

@@ -2,21 +2,26 @@
 import { useState, useEffect } from "react";
 import movieApi from "../api/Api";
 
-const useFetchMovies = ({ categeory }) => {
+const useFetchMovies = ({ categeory, getList = true, search = false }) => {
   const [movies, setMovies] = useState([]);
 
   useEffect(() => {
     async function getMovies() {
       try {
-        const { data } = await movieApi.get(`/movie/${categeory}`);
-        console.log(data.results);
-        setMovies(data.results); // Store movie data in state
+        const { data } = search
+          ? await movieApi.get(`/search/movie`, {
+              params: { query: categeory },
+            })
+          : await movieApi.get(`/movie/${categeory}`);
+
+        setMovies(getList ? data?.results : data); // Store movie data in state
       } catch (error) {
-        console.log(error);
+        console.error(error);
       }
     }
+    //api.themoviedb.org/3/search/movie?api_key=e268622fedb12e24eecb408b18e84127&query=Inception
 
-    getMovies();
+    https: getMovies();
   }, [categeory]);
 
   return movies;
