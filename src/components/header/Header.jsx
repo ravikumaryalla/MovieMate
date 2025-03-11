@@ -20,7 +20,7 @@ const Header = () => {
   }, [location.pathname]);
 
   return (
-    <div className="bg-[#0f171e] min-h-[3rem] text-[25px] flex gap-[1rem] p-[1rem] justify-between">
+    <div className="bg-[#0f171e] min-h-[1rem] text-[15px] flex gap-[1rem] p-[0.5rem] justify-between items-center">
       <div className="flex items-center gap-[1rem] ml-4">
         <img src={logo} alt="logo" className="w-[1.5rem]" />
         <p>Movie Mate</p>
@@ -60,7 +60,7 @@ const Header = () => {
         />
         <button className="cursor-pointer" onClick={(e) => handleSearch(e)}>
           {" "}
-          <span className="material-icons absolute right-[20px] top-[20px]">
+          <span className="material-icons absolute right-[20px] top-[16px]">
             search
           </span>{" "}
         </button>

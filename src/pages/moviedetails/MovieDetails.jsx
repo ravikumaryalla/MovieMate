@@ -1,18 +1,42 @@
 /* eslint-disable react/prop-types */
 import { useParams } from "react-router-dom";
+import { useState, useEffect } from "react";
 import useFetchMovies from "../../hooks/useFetchMovies";
 
 const MovieDetails = () => {
-  const { id } = useParams();
-  const categeory = `${id}`;
-  const movies = useFetchMovies({ categeory, getList: false });
+  const { id } = useParams(); // Get movie ID from URL params
+  const { fetchMovies, data: movie, loading, error } = useFetchMovies(); // Extract fetch function and data from hook
 
-  const formatCurrency = (value) => {
-    return new Intl.NumberFormat("en-US", {
-      minimumFractionDigits: 0,
-      maximumFractionDigits: 0,
-    }).format(value);
-  };
+  useEffect(() => {
+    fetchMovies({ category: id, getList: false }); // Fetch movie details when `id` changes
+  }, [id]); // Dependency array ensures it runs when `id` changes
+
+  // Loading state
+  if (loading) {
+    return (
+      <div className="flex justify-center items-center min-h-screen text-white">
+        Loading...
+      </div>
+    );
+  }
+
+  // Error state
+  if (error) {
+    return (
+      <div className="flex justify-center items-center min-h-screen text-red-500">
+        Failed to load movie details. Try again later.
+      </div>
+    );
+  }
+
+  // If movie data is still null, return nothing
+  if (!movie || Object.keys(movie).length === 0) {
+    return (
+      <div className="flex justify-center items-center min-h-screen text-white">
+        No data available.
+      </div>
+    );
+  }
 
   return (
     <div className="min-h-screen bg-[#262e35] overflow-y-auto">
@@ -20,10 +44,10 @@ const MovieDetails = () => {
         <div className="flex flex-col md:flex-row gap-8">
           {/* Poster Section */}
           <div className="w-full md:w-auto shrink-0">
-            {movies?.poster_path ? (
+            {movie.poster_path ? (
               <img
-                src={`https://image.tmdb.org/t/p/w500${movies.poster_path}`}
-                alt={movies?.title}
+                src={`https://image.tmdb.org/t/p/w500${movie.poster_path}`}
+                alt={movie.title}
                 className="rounded-xl w-full md:w-[300px] object-cover shadow-lg"
               />
             ) : (
@@ -38,17 +62,17 @@ const MovieDetails = () => {
             <div className="space-y-6">
               {/* Title */}
               <h1 className="text-2xl md:text-3xl font-bold text-white">
-                {movies?.title}
+                {movie.title}
               </h1>
 
               {/* Overview */}
               <p className="text-sm md:text-base text-slate-400 leading-relaxed">
-                {movies?.overview}
+                {movie.overview}
               </p>
 
               {/* Genres */}
               <div className="flex flex-wrap gap-3">
-                {movies?.genres?.map((genre) => (
+                {movie.genres?.map((genre) => (
                   <span
                     key={genre.id}
                     className="text-sm text-slate-400 border border-[#7e868d] rounded-lg px-3 py-1"
@@ -60,23 +84,21 @@ const MovieDetails = () => {
 
               {/* Movie Info */}
               <div className="space-y-4">
-                <InfoRow label="Runtime" value={`${movies?.runtime} mins`} />
+                <InfoRow label="Runtime" value={`${movie.runtime} mins`} />
                 <InfoRow
                   label="Budget"
                   value={
-                    movies?.budget ? `$${formatCurrency(movies.budget)}` : "N/A"
+                    movie.budget ? `$${formatCurrency(movie.budget)}` : "N/A"
                   }
                 />
                 <InfoRow
                   label="Revenue"
                   value={
-                    movies?.revenue
-                      ? `$${formatCurrency(movies.revenue)}`
-                      : "N/A"
+                    movie.revenue ? `$${formatCurrency(movie.revenue)}` : "N/A"
                   }
                 />
-                <InfoRow label="IMDB Code" value={movies?.imdb_id || "N/A"} />
-                <InfoRow label="Status" value={movies?.status} />
+                <InfoRow label="IMDB Code" value={movie.imdb_id || "N/A"} />
+                <InfoRow label="Status" value={movie.status} />
               </div>
             </div>
           </div>
@@ -86,11 +108,20 @@ const MovieDetails = () => {
   );
 };
 
+// InfoRow Component
 const InfoRow = ({ label, value }) => (
   <div className="flex items-center gap-2">
     <span className="text-base font-bold text-slate-100">{label}:</span>
     <span className="text-base text-slate-400">{value}</span>
   </div>
 );
+
+// Currency Formatter Function
+const formatCurrency = (value) => {
+  return new Intl.NumberFormat("en-US", {
+    minimumFractionDigits: 0,
+    maximumFractionDigits: 0,
+  }).format(value);
+};
 
 export default MovieDetails;

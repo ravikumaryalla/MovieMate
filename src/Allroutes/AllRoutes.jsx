@@ -5,6 +5,7 @@ import MovieDetails from "../pages/moviedetails/MovieDetails";
 import PageNotFound from "../pages/pagenotfound/PageNotFound";
 import Header from "../components/header/Header";
 import MovieList from "../components/movielist/MovieList";
+import Footer from "../components/footer/Footer";
 
 const AllRoutes = () => {
   return (
@@ -26,6 +27,7 @@ const AllRoutes = () => {
         <Route path="/moviedetails/:id" element={<MovieDetails />} />
         <Route path="*" element={<PageNotFound />} />
       </Routes>
+      <Footer />
     </div>
   );
 };
